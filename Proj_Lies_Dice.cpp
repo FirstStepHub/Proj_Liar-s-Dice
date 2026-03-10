@@ -11,7 +11,7 @@ public:
     string name ;
     int diceNow ;
     vector<int> diceInHand ;
-    bool Bot;
+    bool Bot ;
     Player(string inputName , bool botStatus = false) {
         name = inputName ;
         diceNow = 5 ;
@@ -153,112 +153,112 @@ if (players[currentPlayerTurn].diceNow == 0) return ;
             cout << "Enter '0 0' to CHALLENGE, or place a higher bid." << endl ;
         }
 
-        int amount, face;
+        int amount, face ;
         while (true) {
-            cout << "Place your bid (face amount) OR type 'Exit' to quit: ";
+            cout << "Place your bid (face amount) OR type 'Exit' to quit: " ;
             string inputStr ;
             cin >> inputStr ;
 
 for (char &c : inputStr) {
-                c = toupper(c);
+                c = toupper(c) ;
             }
 
             if (inputStr == "EXIT") {
-                cout << "\n👋 You have exited the game. See you next time!" << endl;
-                exit(0);
+                cout << "\n👋 You have exited the game. See you next time!" << endl ;
+                exit(0) ;
             }
 
-            face = atoi(inputStr.c_str());
-            cin >> amount;
+            face = atoi(inputStr.c_str()) ;
+            cin >> amount ;
 
             if (face == 0 && amount == 0) {
                 if (currentBidAmount == 0) {
-                    cout << "You cannot challenge on the first turn!" << endl;
-                    continue;
+                    cout << "You cannot challenge on the first turn!" << endl ;
+                    continue ;
                 }
-                checkChallenge();
-                resetRound();
-                return;
+                checkChallenge() ;
+                resetRound() ;
+                return ;
             }
 
-            bool valid = false;
-            if (amount > currentBidAmount) valid = true;
-            else if (amount == currentBidAmount && face > currentBidFace) valid = true;
+            bool valid = false ;
+            if (amount > currentBidAmount) valid = true ;
+            else if (amount == currentBidAmount && face > currentBidFace) valid = true ;
 
             if (valid && face >= 1 && face <= 6) {
-                currentBidAmount = amount;
-                currentBidFace = face;
-                break;
+                currentBidAmount = amount ;
+                currentBidFace = face ;
+                break ;
             } else {
-                cout << "Invalid bid! You must raise the amount or the face value (1-6)." << endl;
-                cin.clear();
-                cin.ignore(10000, '\n');
+                cout << "Invalid bid! You must raise the amount or the face value (1-6)." << endl ;
+                cin.clear(); 
+                cin.ignore(10000, '\n') ;
             }
         }
     }
     do {
-        currentPlayerTurn = (currentPlayerTurn + 1) % players.size();
-    } while (players[currentPlayerTurn].diceNow == 0);
+        currentPlayerTurn = (currentPlayerTurn + 1) % players.size() ;
+    } while (players[currentPlayerTurn].diceNow == 0) ;
 }
 
 void checkChallenge(){
-cout << "\n!!! CHALLENGE CALLED !!!" << endl;
+cout << "\n!!! CHALLENGE CALLED !!!" << endl ;
     
-    int actualCount = 0;
+    int actualCount = 0 ;
     for (Player& p : players) {
         if (p.diceNow > 0) {
-            p.seeHand();
+            p.seeHand() ;
             for (int d : p.diceInHand) {
                 if (d == currentBidFace) {
-                    actualCount++;
+                    actualCount++ ;
                 }
             }
         }
     }
 
-    cout << "\nTotal amount of Face [" << currentBidFace << "] on the table is: " << actualCount << endl;
+    cout << "\nTotal amount of Face [" << currentBidFace << "] on the table is: " << actualCount << endl ;
 
-    int previousPlayer = currentPlayerTurn - 1;
-    if (previousPlayer < 0) previousPlayer = players.size() - 1;
+    int previousPlayer = currentPlayerTurn - 1 ;
+    if (previousPlayer < 0) previousPlayer = players.size() - 1 ;
     while (players[previousPlayer].diceNow == 0) {
-        previousPlayer--;
-        if (previousPlayer < 0) previousPlayer = players.size() - 1;
+        previousPlayer-- ;
+        if (previousPlayer < 0) previousPlayer = players.size() - 1 ;
     }
 
     if (actualCount >= currentBidAmount) {
-        cout << "=> " << players[previousPlayer].name << " told the TRUTH! (There are " << actualCount << " >= " << currentBidAmount << ")" << endl;
-        cout << "=> " << players[currentPlayerTurn].name << " (Challenger) loses the challenge!" << endl;
-        players[currentPlayerTurn].loseDice();
+        cout << "=> " << players[previousPlayer].name << " told the TRUTH! (There are " << actualCount << " >= " << currentBidAmount << ")" << endl ;
+        cout << "=> " << players[currentPlayerTurn].name << " (Challenger) loses the challenge!" << endl ;
+        players[currentPlayerTurn].loseDice() ;
     } else {
-        cout << "=> " << players[previousPlayer].name << " BLUFFED! (There are only " << actualCount << " < " << currentBidAmount << ")" << endl;
-        cout << "=> " << players[previousPlayer].name << " (Bidder) gets caught!" << endl;
-        players[previousPlayer].loseDice();
-        currentPlayerTurn = previousPlayer;
+        cout << "=> " << players[previousPlayer].name << " BLUFFED! (There are only " << actualCount << " < " << currentBidAmount << ")" << endl ;
+        cout << "=> " << players[previousPlayer].name << " (Bidder) gets caught!" << endl ;
+        players[previousPlayer].loseDice() ;
+        currentPlayerTurn = previousPlayer ;
     }
     while (players[currentPlayerTurn].diceNow == 0) {
-        currentPlayerTurn = (currentPlayerTurn + 1) % players.size();
+        currentPlayerTurn = (currentPlayerTurn + 1) % players.size() ;
     }
 }
 
 int countActivePlayers() {
-    int count = 0;
+    int count = 0 ;
     for (Player& p : players) {
-        if (p.diceNow > 0) count++;
+        if (p.diceNow > 0) count++ ;
     }
-    return count;
+    return count ;
 }
 
 void playGame() {
-    resetRound();
+    resetRound() ;
 
     while (countActivePlayers() > 1) {
-        processTurn();
+        processTurn() ;
     }
 
     for (Player& p : players) {
         if (p.diceNow > 0) {
-            cout << "\n🎉 WINNER IS: " << p.name << " 🎉" << endl;
-            break;
+            cout << "\n WINNER IS: " << p.name << endl;
+            break ;
         }
     }
 }
