@@ -36,7 +36,7 @@ public:
     }
 
     void seeHand(){
-        cout << "[" << name << "'s Hand]: " ;
+        cout << "[" << name << "'s Hand] : " ;
         for (int d : diceInHand) {
             cout << d << " " ;
         }
@@ -70,12 +70,12 @@ int main(){
 
 void startGame(){
     string name ;
-    cout << "Enter your name: " ;
+    cout << "Enter your name : " ;
     cin >> name ;
     players.push_back(Player(name, false)) ;
 
     int numBots ;
-    cout << "Enter number of Bots to play against: " ;
+    cout << "Enter number of Bots to play against : " ;
     cin >> numBots ;
 
     for (int i = 1; i <= numBots; i++) {
@@ -95,7 +95,7 @@ void resetRound() {
         }
     }
     cout << "\n===================================" << endl ;
-    cout << "   NEW ROUND STARTED! Total Dice: " << totalDiceInGame << endl ;
+    cout << "   NEW ROUND STARTED! Total Dice : " << totalDiceInGame << endl ;
     cout << "===================================" << endl ;
 }
 
@@ -111,7 +111,7 @@ if (players[currentPlayerTurn].diceNow == 0) return ;
     if (currentBidAmount == 0) {
         cout << "No current bid." << endl ;
     } else {
-        cout << "Current Bid: " << currentBidAmount << " of Face [" << currentBidFace << "]" << endl ;
+        cout << "Current Bid : " << currentBidAmount << " of Face [" << currentBidFace << "]" << endl ;
     }
 
     if (players[currentPlayerTurn].Bot) {
@@ -120,14 +120,14 @@ if (players[currentPlayerTurn].diceNow == 0) return ;
         if (currentBidAmount == 0) {
             face = (rand() % 6) + 1 ;
             amount = 1 ;
-            cout << players[currentPlayerTurn].name << " bids: Face " << face << ", Amount " << amount << endl ;
+            cout << players[currentPlayerTurn].name << " bids : Face " << face << ", Amount " << amount << endl ;
             currentBidAmount = amount ;
             currentBidFace = face ;
         } else {
             int challengeThreshold = (totalDiceInGame / 2) + (rand() % 2) ; 
             
             if (currentBidAmount >= challengeThreshold) {
-                cout << players[currentPlayerTurn].name << " says: CHALLENGE! (0 0)" << endl ;
+                cout << players[currentPlayerTurn].name << " says : CHALLENGE! (0 0)" << endl ;
                 checkChallenge() ;
                 resetRound() ;
                 return ;
@@ -155,7 +155,7 @@ if (players[currentPlayerTurn].diceNow == 0) return ;
 
         int amount, face ;
         while (true) {
-            cout << "Place your bid (face amount) OR type 'Exit' to quit: " ;
+            cout << "Place your bid (face amount) OR type 'Exit' to quit : " ;
             string inputStr ;
             cin >> inputStr ;
 
@@ -164,7 +164,7 @@ for (char &c : inputStr) {
             }
 
             if (inputStr == "EXIT") {
-                cout << "\n👋 You have exited the game. See you next time!" << endl ;
+                cout << "\nYou have exited the game. See you next time!" << endl ;
                 exit(0) ;
             }
 
@@ -216,7 +216,7 @@ cout << "\n!!! CHALLENGE CALLED !!!" << endl ;
         }
     }
 
-    cout << "\nTotal amount of Face [" << currentBidFace << "] on the table is: " << actualCount << endl ;
+    cout << "\nTotal amount of Face [" << currentBidFace << "] on the table is : " << actualCount << endl ;
 
     int previousPlayer = currentPlayerTurn - 1 ;
     if (previousPlayer < 0) previousPlayer = players.size() - 1 ;
@@ -257,7 +257,7 @@ void playGame() {
 
     for (Player& p : players) {
         if (p.diceNow > 0) {
-            cout << "\n WINNER IS: " << p.name << endl;
+            cout << "\n WINNER IS : " << p.name << endl;
             break ;
         }
     }
