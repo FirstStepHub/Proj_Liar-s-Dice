@@ -182,21 +182,35 @@ for (char &c : inputStr) {
             }
 
             bool valid = false ;
-            if (amount > currentBidAmount) valid = true ;
-            else if (amount == currentBidAmount && face > currentBidFace) valid = true ;
+if (currentBidAmount == 0) {
+                // ตาแรกสุด: ใส่หน้าเต๋า 1-6 และจำนวนเท่าไหร่ก็ได้ที่ > 0
+                if (amount > 0 && face >= 1 && face <= 6) {
+                    valid = true ;
+                }
+            } else {
+                if (amount > currentBidAmount && face == currentBidFace) {
+                    valid = true ;
+                } 
+                else if (amount == currentBidAmount && face > currentBidFace) {
+                    valid = true ;
+                }
+            }
 
             if (valid && face >= 1 && face <= 6) {
                 currentBidAmount = amount ;
                 currentBidFace = face ;
                 break ;
             } else {
-                cout << "Invalid bid! You must raise the amount or the face value (1-6)." << endl ;
+                if (currentBidAmount == 0) {
+                     cout << "Invalid bid! Face must be 1-6 and amount must be greater than 0." << endl ;
+                } else {
+                     cout << "Invalid bid! You must raise ONLY the amount OR the face value (1-6), not both." << endl ;
+                }
                 cin.clear(); 
                 cin.ignore(10000, '\n') ;
             }
         }
-    }
-    do {
+    }    do {
         currentPlayerTurn = (currentPlayerTurn + 1) % players.size() ;
     } while (players[currentPlayerTurn].diceNow == 0) ;
 }
